@@ -7,6 +7,7 @@ class Student:
         self.finished_courses = []
         self.courses_in_progress = []
         self.grades = {}
+    
 
       
 class Mentor:
