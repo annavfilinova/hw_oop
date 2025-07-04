@@ -21,6 +21,36 @@ class Student:
         if self.grades:
             return sum(sum(grades) for grades in self.grades.values()) / sum(len(grades) for grades in self.grades.values())
         return 0
+    
+    #Сравнение студента и лектора по средней оценке
+    def __lt__(self, other):
+        if isinstance(other, Student):
+            return self.get_average_grade() < other.get_average_grade()
+        return NotImplemented
+
+    def __le__(self, other):
+        if isinstance(other, Student):
+            return self.get_average_grade() <= other.get_average_grade()
+        return NotImplemented
+    def __gt__(self, other):
+        if isinstance(other, Student):
+            return self.get_average_grade() > other.get_average_grade()
+        return NotImplemented
+
+    def __ge__(self, other):
+        if isinstance(other, Student):
+            return self.get_average_grade() >= other.get_average_grade()
+        return NotImplemented
+
+    def __eq__(self, other):
+        if isinstance(other, Student):
+            return self.get_average_grade() == other.get_average_grade()
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, Student):
+            return self.get_average_grade() != other.get_average_grade()
+        return NotImplemented
 
         
     def __str__(self):
@@ -57,6 +87,35 @@ class Lecturer(Mentor):
         return (f"Имя: {self.name}\n"
                 f"Фамилия: {self.surname}\n"
                 f"Средняя оценка за лекции: {avg_grade}")
+    
+    def __lt__(self, other):
+        if isinstance(other, Lecturer):
+            return self.get_average_grade() < other.get_average_grade()
+        return NotImplemented
+
+    def __le__(self, other):
+        if isinstance(other, Lecturer):
+            return self.get_average_grade() <= other.get_average_grade()
+        return NotImplemented
+
+    def __gt__(self, other):
+        if isinstance(other, Lecturer):
+            return self.get_average_grade() > other.get_average_grade()
+        return NotImplemented
+    def __ge__(self, other):
+        if isinstance(other, Lecturer):
+            return self.get_average_grade() >= other.get_average_grade()
+        return NotImplemented
+
+    def __eq__(self, other):
+        if isinstance(other, Lecturer):
+            return self.get_average_grade() == other.get_average_grade()
+        return NotImplemented
+
+    def __ne__(self, other):
+        if isinstance(other, Lecturer):
+            return self.get_average_grade() != other.get_average_grade()
+        return NotImplemented
 
     
 
@@ -78,33 +137,33 @@ class Reviewer(Mentor):
             return 'Ошибка'
 
 
-lecturer = Lecturer('Иван', 'Иванов')
+# Пример использования
+lecturer1 = Lecturer('Иван', 'Иванов')
+lecturer2 = Lecturer('Сергей', 'Сергеев')
+
 reviewer = Reviewer('Пётр', 'Петров')
-student = Student('Алёхина', 'Ольга', 'Ж')
+student1 = Student('Алёхина', 'Ольга', 'Ж')
+student2 = Student('Дмитрий', 'Дмитриев', 'М')
 
-# Добавим курсы и оценки для тестирования
-student.courses_in_progress = ['Python', 'Git']
-student.finished_courses = ['Введение в программирование']
-student.grades = {
-    'Python': [10, 9, 8],
-    'Git': [9, 9]
-}
+# Добавили курсы и оценки для тестирования
+student1.courses_in_progress = ['Python', 'Git']
+student1.finished_courses = ['Введение в программирование']
+student1.grades = {'Python': [10, 9, 8], 'Git': [9, 9]}
 
-lecturer.courses_attached = ['Python', 'Git']
-lecturer.grades = {
-    'Python': [10, 9],
-    'Git': [8, 7]
-}
+student2.courses_in_progress = ['Python', 'Java']
+student2.finished_courses = ['Введение в программирование']
+student2.grades = {'Python': [9, 8], 'Java': [10, 9]}
 
-# Вывод информации о проверяющем
-print(reviewer)  # Вывод информации о проверяющем
+lecturer1.courses_attached = ['Python']
+lecturer1.grades = {'Python': [10, 9]}
 
-# Вывод информации о лекторе
-print(lecturer)  # Вывод информации о лекторе
+lecturer2.courses_attached = ['Python']
+lecturer2.grades = {'Python': [8, 7]}
 
-# Вывод информации о студенте
-print(student)   # Вывод информации о студенте
+# Сравнение студентов
+print(student1 > student2)  # Вывод: True (если student1 имеет более высокую среднюю оценку)
+print(student1 < student2)  # Вывод: False
 
-
-
-
+# Сравнение лекторов
+print(lecturer1 > lecturer2)  # Вывод: True (если lecturer1 имеет более высокую среднюю оценку)
+print(lecturer1 < lecturer2)  # Вывод: False
