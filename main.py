@@ -17,6 +17,22 @@ class Student:
                 lecturer.grades[course] = [grade]
         else:
             return 'Ошибка'
+    def get_average_grade(self):
+        if self.grades:
+            return sum(sum(grades) for grades in self.grades.values()) / sum(len(grades) for grades in self.grades.values())
+        return 0
+
+        
+    def __str__(self):
+        avg_grade = self.get_average_grade()
+        courses_in_progress = ', '.join(self.courses_in_progress) if self.courses_in_progress else 'Нет'
+        finished_courses = ', '.join(self.finished_courses) if self.finished_courses else 'Нет'
+        return (f"Имя: {self.name}\n"
+                f"Фамилия: {self.surname}\n"
+                f"Средняя оценка за домашние задания: {avg_grade}\n"
+                f"Курсы в процессе изучения: {courses_in_progress}\n"
+                f"Завершенные курсы: {finished_courses}")
+
 
       
 class Mentor:
@@ -24,16 +40,32 @@ class Mentor:
         self.name = name
         self.surname = surname
         self.courses_attached = []
+   
 
 class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
         self.grades = {} #Словарь для хранения оценок по курсам
+    
+    def get_average_grade(self):
+        if self.grades:
+            return sum(sum(grades) for grades in self.grades.values()) / sum(len(grades) for grades in self.grades.values())
+        return 0
+
+    def __str__(self):
+        avg_grade = self.get_average_grade()
+        return (f"Имя: {self.name}\n"
+                f"Фамилия: {self.surname}\n"
+                f"Средняя оценка за лекции: {avg_grade}")
 
     
+
 class Reviewer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
+    
+    def __str__(self):
+        return f"Имя: {self.name}\nФамилия: {self.surname}"
     
     #выставлять оценки за дз 
     def rate_lecture(self, student, course, grade):
@@ -45,20 +77,34 @@ class Reviewer(Mentor):
         else:
             return 'Ошибка'
 
+
 lecturer = Lecturer('Иван', 'Иванов')
 reviewer = Reviewer('Пётр', 'Петров')
 student = Student('Алёхина', 'Ольга', 'Ж')
- 
-student.courses_in_progress += ['Python', 'Java']
-lecturer.courses_attached += ['Python', 'C++']
-reviewer.courses_attached += ['Python', 'C++']
- 
-print(student.rate_lecture(lecturer, 'Python', 7))   # None
-print(student.rate_lecture(lecturer, 'Java', 8))     # Ошибка
-print(student.rate_lecture(lecturer, 'С++', 8))      # Ошибка
-print(student.rate_lecture(reviewer, 'Python', 6))   # Ошибка
- 
-print(lecturer.grades)  # {'Python': [7]}  
+
+# Добавим курсы и оценки для тестирования
+student.courses_in_progress = ['Python', 'Git']
+student.finished_courses = ['Введение в программирование']
+student.grades = {
+    'Python': [10, 9, 8],
+    'Git': [9, 9]
+}
+
+lecturer.courses_attached = ['Python', 'Git']
+lecturer.grades = {
+    'Python': [10, 9],
+    'Git': [8, 7]
+}
+
+# Вывод информации о проверяющем
+print(reviewer)  # Вывод информации о проверяющем
+
+# Вывод информации о лекторе
+print(lecturer)  # Вывод информации о лекторе
+
+# Вывод информации о студенте
+print(student)   # Вывод информации о студенте
+
 
 
 
