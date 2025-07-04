@@ -117,7 +117,6 @@ class Lecturer(Mentor):
             return self.get_average_grade() != other.get_average_grade()
         return NotImplemented
 
-    
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -135,17 +134,37 @@ class Reviewer(Mentor):
                 student.grades[course] = [grade]
         else:
             return 'Ошибка'
+# Функции для подсчета средней оценки
+def average_student_grade(students, course):
+    total_grade = 0
+    count = 0
+    for student in students:
+        if course in student.grades:
+            total_grade += sum(student.grades[course])
+            count += len(student.grades[course])
+    return total_grade / count if count > 0 else 0
 
 
-# Пример использования
-lecturer1 = Lecturer('Иван', 'Иванов')
-lecturer2 = Lecturer('Сергей', 'Сергеев')
+def average_lecturer_grade(lecturers, course):
+    total_grade = 0
+    count = 0
+    for lecturer in lecturers:
+        if course in lecturer.grades:
+            total_grade += sum(lecturer.grades[course])
+            count += len(lecturer.grades[course])
+    return total_grade / count if count > 0 else 0
 
-reviewer = Reviewer('Пётр', 'Петров')
+# Создание экземпляров классов
 student1 = Student('Алёхина', 'Ольга', 'Ж')
 student2 = Student('Дмитрий', 'Дмитриев', 'М')
 
-# Добавили курсы и оценки для тестирования
+lecturer1 = Lecturer('Иван', 'Иванов')
+lecturer2 = Lecturer('Сергей', 'Сергеев')
+
+reviewer1 = Reviewer('Пётр', 'Петров')
+reviewer2 = Reviewer('Алексей', 'Алексеев')
+
+# Добавление курсов и оценок
 student1.courses_in_progress = ['Python', 'Git']
 student1.finished_courses = ['Введение в программирование']
 student1.grades = {'Python': [10, 9, 8], 'Git': [9, 9]}
@@ -160,10 +179,18 @@ lecturer1.grades = {'Python': [10, 9]}
 lecturer2.courses_attached = ['Python']
 lecturer2.grades = {'Python': [8, 7]}
 
-# Сравнение студентов
-print(student1 > student2)  # Вывод: True (если student1 имеет более высокую среднюю оценку)
-print(student1 < student2)  # Вывод: False
+# Вывод информации о студентах и лекторах
+print(student1)
+print(student2)
+print(lecturer1)
+print(lecturer2)
 
-# Сравнение лекторов
-print(lecturer1 > lecturer2)  # Вывод: True (если lecturer1 имеет более высокую среднюю оценку)
-print(lecturer1 < lecturer2)  # Вывод: False
+# Подсчет средней оценки за домашние задания по всем студентам по курсу 'Python'
+students = [student1, student2]
+average_student_python = average_student_grade(students, 'Python')
+print(f"Средняя оценка за домашние задания по курсу 'Python': {average_student_python}")
+
+# Подсчет средней оценки за лекции всех лекторов по курсу 'Python'
+lecturers = [lecturer1, lecturer2]
+average_lecturer_python = average_lecturer_grade(lecturers, 'Python')
+print(f"Средняя оценка за лекции по курсу 'Python': {average_lecturer_python}")
